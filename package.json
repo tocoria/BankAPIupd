@@ -1,0 +1,30 @@
+{
+  "name": "node-project-base",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx nodemon src",
+    "start": "node src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cauradev/node-project-base.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cauradev/node-project-base/issues"
+  },
+  "homepage": "https://github.com/cauradev/node-project-base#readme",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20",
+    "npx": "^10.2.2",
+    "swagger-ui-express": "^4.5.0",
+    "winston": "^3.8.2"
+  }
+}
