@@ -1,45 +1,52 @@
 const express = require('express');
+const User = require('../models/users.models')
 
-const getAllUsers = (req, res) => {
-    const users = [
-        {
-        id: 1,
-        name: 'Tomas'
-        },
+const getAllUsers = async (req, res, next) => {
+    try {
+        const users = await User.find()
+        res.json(users);
 
-        {
-        id: 2,
-        name: 'Yumin'
-
-        },
-    ]
-
-    res.json(users);
+    } catch (err) {
+        next(err);
+    }
 }
 
-const createUser = (req, res) => {
+const createUser = async (req, res, next) => {
 
-    const user = req.body;
-    user.id = 123;
+   try { 
+    let userData = req.body;
+    user = await User.create(userData);
 
     const result = {
         message: 'User created successfully',
         user
     }
     res.status(201).json(result);
+} catch (err) {
+    next(err);
+}
 }
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res, next) => {
+    try {
     const { id } = req.params;
-    const user = req.body
 
-    user.id = id;
+    // let userNewData = req.body;
+    // await User.updateOne({_id: {$eq: id}}, userNewData);
+
+    let userToUpdate = await User.findById(id); 
+    let userData = req.body;
+
+    await User.updateOne(userToUpdate, userData);
 
     const result = {
         message: 'User updated successfully',
-        user
+        userData
     }
     res.json(result);
+} catch (err) {
+    next(err)
+}
 };
 
 const updatePartialUser = (req, res) => {
@@ -51,13 +58,23 @@ const updatePartialUser = (req, res) => {
     res.json(result);
 };
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res, next) => {
+
+    try {
+
     const { id } = req.params;
+
+    const userToDelete = await User.findById(id);
+
+    await userToDelete.remove();
 
     const result = {
         message: `User with id: ${id} deleted successfully`
     }
     res.json(result);
+} catch (err) {
+    next(err);
+}
 };
 
 module.exports = {
