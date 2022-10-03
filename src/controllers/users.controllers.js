@@ -1,9 +1,9 @@
 const express = require('express');
-const User = require('../models/users.models')
+const userService = require('../services/userServices')
 
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await User.find()
+        const users = await userService.findAll()
         res.json(users);
 
     } catch (err) {
@@ -11,11 +11,30 @@ const getAllUsers = async (req, res, next) => {
     }
 }
 
+const getUserById = async (req, res, next) => {
+
+    try {
+
+        const user = await userService.findById(req.params.id);
+        res.json(user);
+
+        // const result = {
+        //     user: userService.findById(req.params.id)
+        // }
+        // res.json(req.params.id);
+
+    } catch (err) {
+        next(err);
+    }
+
+};
+
+
 const createUser = async (req, res, next) => {
 
    try { 
     let userData = req.body;
-    user = await User.create(userData);
+    user = await userService.save(userData);
 
     const result = {
         message: 'User created successfully',
@@ -30,18 +49,17 @@ const createUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
     try {
     const { id } = req.params;
+    let user = req.body;
 
     // let userNewData = req.body;
     // await User.updateOne({_id: {$eq: id}}, userNewData);
 
-    let userToUpdate = await User.findById(id); 
-    let userData = req.body;
+    const userUpdated = await userService.update(id, user); 
 
-    await User.updateOne(userToUpdate, userData);
 
     const result = {
         message: 'User updated successfully',
-        userData
+        userUpdated
     }
     res.json(result);
 } catch (err) {
@@ -49,14 +67,6 @@ const updateUser = async (req, res, next) => {
 }
 };
 
-const updatePartialUser = (req, res) => {
-
-    const result = {
-        message: 'User updated successfully (with PATCH)'
-        
-    }
-    res.json(result);
-};
 
 const deleteUser = async (req, res, next) => {
 
@@ -64,9 +74,8 @@ const deleteUser = async (req, res, next) => {
 
     const { id } = req.params;
 
-    const userToDelete = await User.findById(id);
+    const userToDelete = await userService.remove(id);
 
-    await userToDelete.remove();
 
     const result = {
         message: `User with id: ${id} deleted successfully`
@@ -81,7 +90,7 @@ module.exports = {
     getAllUsers,
     createUser,
     updateUser,
-    updatePartialUser,
+    getUserById,
     deleteUser
 
 }
