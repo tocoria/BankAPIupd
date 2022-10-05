@@ -1,10 +1,12 @@
 const express = require('express');
 const userService = require('../services/userServices')
+const success = require('../handlers/successHandler');
+const Success = require('../handlers/successHandler');
 
 const getAllUsers = async (req, res, next) => {
     try {
         const users = await userService.findAll()
-        res.json(users);
+        res.status(200).json(new Success(users));
 
     } catch (err) {
         next(err);
@@ -16,7 +18,7 @@ const getUserById = async (req, res, next) => {
     try {
 
         const user = await userService.findById(req.params.id);
-        res.json(user);
+        res.status(200).json(new Success(user));
 
         // const result = {
         //     user: userService.findById(req.params.id)
@@ -36,11 +38,7 @@ const createUser = async (req, res, next) => {
     let userData = req.body;
     user = await userService.save(userData);
 
-    const result = {
-        message: 'User created successfully',
-        user
-    }
-    res.status(201).json(result);
+    res.status(201).json(new Success(user));
 } catch (err) {
     next(err);
 }
@@ -57,11 +55,7 @@ const updateUser = async (req, res, next) => {
     const userUpdated = await userService.update(id, user); 
 
 
-    const result = {
-        message: 'User updated successfully',
-        userUpdated
-    }
-    res.json(result);
+    res.status(201).json(new Success(userUpdated));
 } catch (err) {
     next(err)
 }
@@ -77,10 +71,7 @@ const deleteUser = async (req, res, next) => {
     const userToDelete = await userService.remove(id);
 
 
-    const result = {
-        message: `User with id: ${id} deleted successfully`
-    }
-    res.json(result);
+    res.status(200).json(new Success(userToDelete));
 } catch (err) {
     next(err);
 }
