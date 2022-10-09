@@ -8,8 +8,8 @@ const findById = async(id) => {
 }
 
 
-const findAll = async() => {
-    return await repository.getAll();
+const findAll = async(filter, options) => {
+    return await repository.getAllWithPagination(filter, options);
 }
 
 

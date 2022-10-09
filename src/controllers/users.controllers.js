@@ -1,11 +1,10 @@
 const express = require('express');
 const userService = require('../services/userServices')
-const success = require('../handlers/successHandler');
 const Success = require('../handlers/successHandler');
 
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await userService.findAll()
+        const users = await userService.findAll(req.query.filter, req.query.options)
         res.status(200).json(new Success(users));
 
     } catch (err) {
