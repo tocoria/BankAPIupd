@@ -56,7 +56,8 @@ const swaggerUi = require('swagger-ui-express');
         const body = {
             error: {
                 code,
-                message: err.message
+                message: err.message,
+                data: err.data
             }
         }
         res.json(body)
