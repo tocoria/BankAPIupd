@@ -40,12 +40,13 @@ const userSchema = new Schema({
     role: {
         type: String,
         required: [true, 'Role has not been selected'],
-        enum: ['USER_ROLE', 'ADMIN_ROLE']
-        //default: 'USER_ROLE'
+        enum: ['USER_ROLE', 'ADMIN_ROLE'],
+        default: 'USER_ROLE'
     },
     membershipType: {
         type: String,
-        enum: ['SILVER', 'GOLD']
+        enum: ['SILVER', 'GOLD'],
+
     },
     enabled: {
         type: Boolean,

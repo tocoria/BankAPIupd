@@ -1,30 +1,57 @@
-const { check, validationResult, body } = require('express-validator');
+const { check, validationResult, body, param } = require('express-validator');
 const {apiError} = require('../../handlers/apiError.js');
 const userService = require('../../services/userServices');
-const { ROLES } = require('../../constants/index')
+const { ROLES, MEMBERSHIPS } = require('../../constants/index');
 
 
-
-// 'Required' Validations
+// ---------------------------------------------------------------------------------------------- //
+// ------------------------------------ REQUIRED Validations ------------------------------------ //
+// ---------------------------------------------------------------------------------------------- //
 const _nameRequired = check('name', 'Name Required').not().isEmpty();
+
 const _lastNameRequired = check('lastName', 'Last Name Required').not().isEmpty();
+
 const _emailRequired = check('email', 'Email Required').not().isEmpty();
+
 const _userNameRequired = check('userName', 'Username Required').not().isEmpty();
+
 const _passwordRequired = check('password', 'Password Required').not().isEmpty();
 
 
-
-
-
-
-// 'Valid' Validations
+// ---------------------------------------------------------------------------------------------- //
+// -------------------------------------- VALID Validations ------------------------------------- //
+// ---------------------------------------------------------------------------------------------- //
 const _emailValid = check('email', 'This is not a valid email').isEmail();
 
+const _membershipValid = check('membershipType').if(body('membershipType').exists()).custom(
+    async (membershipType = '', { req } ) => {
+        if(req.body.role == 'ADMIN_ROLE') {
+            throw new apiError('Admin users cannot have memberships', 400)
+        }
+        
+        if(!MEMBERSHIPS.includes(membershipType)) {
+            throw new apiError('This is not a valid membership', 400)
+        }
 
+    }
+)
 
+/* _membershipDefault checks if the request.body has no membershipType field
+    and sets it to 'SILVER' only if it doesn't intend to create an ADMIN_ROLE user */
 
+const _membershipDefault = (req, res, next) => {
+    if((req.body.role == 'USER_ROLE' || !req.body.role) && (!req.body.membershipType)) {
+        req.body.membershipType = 'SILVER';
+    
+    }
+    next();
+}
 
-// 'Optional Valid' Validations
+const _idIsMongo = param('_id').isMongoId('This is not a MONGODB id', 400)
+
+// ---------------------------------------------------------------------------------------------- //
+// --------------------------------- OPTIONAL VALID Validations --------------------------------- //
+// ---------------------------------------------------------------------------------------------- //
 const _optionalRoleValid = check('role').default('USER_ROLE').custom(
     async (role = '') => {
         if(!ROLES.includes(role)) {
@@ -32,8 +59,19 @@ const _optionalRoleValid = check('role').default('USER_ROLE').custom(
         }
     }
 )
+
+const _optionalMembershipValid = check('membershipType').optional().custom(
+    async (membershipType = '') => {
+        if(!MEMBERSHIPS.includes(membershipType)) {
+            throw new apiError('Membership is not valid', 400)
+        }
+    }
+)
+
 const _optionalDateValid = check('birthDate').optional().isDate('MM-DD-YYYY');
+
 const _optionalEmailValid = check('email', 'This is not a valid email').optional().isEmail();
+
 const _optionalEmailUnique = check('email').custom(
     async (email = '') => {
         const userFound = await userService.findByEmail(email);
@@ -59,7 +97,11 @@ const _optionalUserNameUnique = check('userName').optional().custom(
 
 
 
-// 'Unique' Validations
+
+
+// ---------------------------------------------------------------------------------------------- //
+// ------------------------------------- UNIQUE Validations ------------------------------------- //
+// ---------------------------------------------------------------------------------------------- //
 const _emailUnique = check('email').custom(
     async (email = '') => {
         const userFound = await userService.findByEmail(email);
@@ -87,8 +129,9 @@ const _userNameUnique = check('userName').custom(
 
 
 
-
-// Validation Result
+// ---------------------------------------------------------------------------------------------- //
+// -------------------------------------- VALIDATION RESULT ------------------------------------- //
+// ---------------------------------------------------------------------------------------------- //
 const _validationResult = (req, res, next) => {
     const errors = validationResult(req)
     console.log(errors.errors[0]);
@@ -111,12 +154,25 @@ const postRequestValidations = [
     _emailValid,
     _optionalDateValid,
     _optionalRoleValid,
+    _membershipValid,
+    _membershipDefault,
     _validationResult
+]
+
+const putRequestValidations = [
+    _optionalDateValid,
+    _optionalRoleValid,
+    _optionalEmailUnique,
+    _optionalEmailValid,
+    _optionalMembershipValid,
+    _optionalUserNameUnique,
+   // _idIsMongo
+
 ]
 
 
 
-
 module.exports = {
-    postRequestValidations
+    postRequestValidations,
+    putRequestValidations
 }

@@ -1,54 +1,54 @@
-[{
-    "name": "Tomy",
-    "lastName": "Coria",
-    "userName": "ohyeah",
-    "email": "fakemail@gmail.com",
-    "password": "123455363",
-    "birthDate": "1568-11-17T23:50:39.000Z",
-    "role": "ADMIN_ROLE",
-    "enabled": true
-},
-{
-    "name": "Tomy",
-    "lastName": "Coria",
-    "userName": "ohyeah",
-    "birthDate": "1568-11-17T23:50:39.000Z",
-    "role": "ADMIN_ROLE",
-    "enabled": true
-},
-{
-    "name": "Tomy",
-    "lastName": "Coria",
-    "email": "fakemail@gmail.com",
-    "password": "123455363",
-    "birthDate": "1568-11-17T23:50:39.000Z",
-    "role": "ADMIN_ROLE",
-    "enabled": true
-},
-{
-    "lastName": "Coria",
-    "userName": "ohyeah",
-    "email": "fakemail@gmail.com",
-    "password": "123455363",
-    "birthDate": "1568-11-17T23:50:39.000Z",
-    "role": "ADMIN_ROLE",
-    "enabled": true
-},
-{
-    "name": "Tomy",
-    "userName": "ohyeah",
-    "email": "fakemail@gmail.com",
-    "password": "123455363",
-    "birthDate": "1568-11-17T23:50:39.000Z",
-    "role": "ADMIN_ROLE",
-    "enabled": true
-},
-{
-    "name": "Tomy",
-    "lastName": "Coria",
-    "userName": "ohyeah",
-    "email": "fakemail@gmail.com",
-    "password": "123455363",
-    "birthDate": "1568-11-17T23:50:39.000Z",
-    "enabled": true
-}]
+[
+    {
+        "name": "Tomy",
+        "lastName": "Coria",
+        "userName": "asdasfasds",
+        "email": "tomas@coria.com",
+        "password": "123455363",
+        "birthDate": "07/07/1995",
+        "role": "ADMIN_ROLE",
+        "enabled": true
+    },
+    {
+        "name": "Tomy",
+        "lastName": "Coria",
+        "userName": "asdasfasds",
+        "email": "tomas@coria.com",
+        "password": "123455363",
+        "birthDate": "07/07/1995",
+        "enabled": true
+    },
+    {
+        "name": "Tomy",
+        "lastName": "Coria",
+        "userName": "asdasfasds",
+        "email": "tomas@coria.com",
+        "password": "123455363",
+        "birthDate": "07/07/1995",
+        "role": "ADMIN_ROLE",
+        "membershipType": "DIAMOND",
+        "enabled": true
+    },
+    {
+        "name": "Tomy",
+        "lastName": "Coria",
+        "userName": "asdasfasds",
+        "email": "tomas@coria.com",
+        "password": "123455363",
+        "birthDate": "07/07/1995",
+        "role": "ADMIN_ROLE",
+        "membershipType": "SILVER",
+        "enabled": true
+    },
+    {
+        "name": "Tomy",
+        "lastName": "Coria",
+        "userName": "asdasfasds",
+        "email": "tomas@coria.com",
+        "password": "123455363",
+        "birthDate": "07/07/1995",
+        "role": "USER_ADMIN",
+        "membershipType": "GOLD",
+        "enabled": true
+    }
+]

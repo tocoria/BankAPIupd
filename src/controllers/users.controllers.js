@@ -33,8 +33,11 @@ const getUserById = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
 
-   try { 
+   try {
+
     let userData = req.body;
+
+
     user = await userService.save(userData);
 
     res.status(201).json(new Success(user));
