@@ -77,7 +77,6 @@ const swaggerUi = require('swagger-ui-express');
             if(error) {
                 logger.log(error);
                 process.exit(1);
-                return;
             }
         });
     }

@@ -54,12 +54,12 @@ const updateUser = async (req, res, next) => {
     // let userNewData = req.body;
     // await User.updateOne({_id: {$eq: id}}, userNewData);
 
-    const userUpdated = await userService.update(id, user); 
-
+    userUpdated = await userService.update(id, user); 
+    
 
     res.status(201).json(new Success(userUpdated));
 } catch (err) {
-    next(err)
+    next(err);
 }
 };
 

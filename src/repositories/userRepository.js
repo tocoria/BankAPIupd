@@ -34,7 +34,13 @@ class UserRepository {
     }
 
     async update(id, user) {
+
+        if(user.password){
+            user.password = await encrypter.hashPassword(user.password);
+
+        }
         return await User.findByIdAndUpdate(id, user, {new: true});
+
     }
 
     async remove(id) {
