@@ -1,8 +1,10 @@
-const { check, validationResult, body, param} = require('express-validator');
+const { check, body} = require('express-validator');
 const validator = require('validator');
 const {apiError} = require('../../handlers/apiError.js');
 const userService = require('../../services/userServices');
-const { ROLES, MEMBERSHIPS } = require('../../constants/index');
+const { USER_ROLE, ADMIN_ROLE, ROLES, MEMBERSHIPS } = require('../../constants/index');
+const {validationResult} = require("../commons.js");
+const { _validJWT, hasRole } = require("./auth.middlewares");
 
 
 // ---------------------------------------------------------------------------------------------- //
@@ -116,7 +118,6 @@ const _putValidator =  async (req, res, next) => {
 
     let { id } = req.params
 
-
   try{
 
         if(!validator.isMongoId(id)) {
@@ -200,18 +201,11 @@ const _userNameUnique = check('userName').custom(
 // ---------------------------------------------------------------------------------------------- //
 // -------------------------------------- VALIDATION RESULT ------------------------------------- //
 // ---------------------------------------------------------------------------------------------- //
-const _validationResult = (req, res, next) => {
-    const errors = validationResult(req)
-    console.log(errors.errors[0]);
-    if(!errors.isEmpty()) {
-        throw new apiError('Validation Error', 400, errors.errors);
-    }
-    next();
-}
-
 
 
 const postRequestValidations = [
+    _validJWT,
+    hasRole(ADMIN_ROLE),
     _nameRequired,
     _lastNameRequired,
     _emailRequired,
@@ -224,10 +218,12 @@ const postRequestValidations = [
     _defaultRoleValid,
     _membershipValid,
     _membershipDefault,
-    _validationResult
+    validationResult
 ]
 
 const putRequestValidations = [
+    _validJWT,
+    hasRole(ADMIN_ROLE),
     _emptyAccountNumberRequired,
     _optionalDateValid,
     _optionalRoleValid,
@@ -236,24 +232,31 @@ const putRequestValidations = [
     _optionalMembershipValid,
     _optionalUserNameUnique,
     _putValidator,
-    _validationResult
+    validationResult
     
 
 ]
 
 const getRequestValidations = [
+    _validJWT,
+    validationResult
+]
+
+const getRequestByIdValidations = [
+    _validJWT,
     _idRequired,
     _idIsMongo,
     _idExists,
-    _validationResult
-
+    validationResult
 
 ]
 const deleteRequestValidations = [
+    _validJWT,
+    hasRole(ADMIN_ROLE),
     _idRequired,
     _idIsMongo,
     _idExists,
-    _validationResult
+    validationResult
 
 
 ]
@@ -263,6 +266,7 @@ const deleteRequestValidations = [
 module.exports = {
     postRequestValidations,
     putRequestValidations,
+    getRequestByIdValidations,
     getRequestValidations,
     deleteRequestValidations
 }

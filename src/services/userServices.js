@@ -9,7 +9,7 @@ const findById = async(id) => {
 
 
 const findAll = async(filter, options) => {
-    return await repository.getAllWithPagination(filter, options);
+    return await repository.getAll(filter, options);
 }
 
 const findByEmail = async(email) => {

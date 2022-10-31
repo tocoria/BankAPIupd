@@ -7,11 +7,7 @@ class UserRepository {
     }
 
 
-    async getAll() {
-        return await User.find();
-    }
-
-    async getAllWithPagination(filter, options) {
+    async getAll(filter, options) {
         return await User.paginate(filter, options)
     }
 

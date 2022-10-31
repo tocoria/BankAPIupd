@@ -11,6 +11,7 @@ const swaggerUi = require('swagger-ui-express');
 
         this.app = express();
         this.port = config.port;
+        this.authBasePath = `${config.api.prefix}/auth`
         this.userBasePath = `${config.api.prefix}/users`
 
         this._middlewares();
@@ -19,8 +20,8 @@ const swaggerUi = require('swagger-ui-express');
 
         this._routes();
 
-        this._notFound();
         this._errorHandler();
+        this._notFound();
 
 
     }
@@ -38,6 +39,7 @@ const swaggerUi = require('swagger-ui-express');
 
 
         this.app.use(this.userBasePath, require('../../routes/users.routes'));
+        this.app.use(this.authBasePath, require('../../routes/auth.routes'));
     }
 
     _notFound() {
@@ -52,7 +54,10 @@ const swaggerUi = require('swagger-ui-express');
     _errorHandler() {
       this.app.use((err, req, res, next) => {
         const code = err.code || 500;
-        res.status(code);
+
+        logger.error(`${code} - ${err.message} - ${req.originalURL} - ${req.method} / ${req.ip}`)
+        logger.error(err.stack)
+
         const body = {
             error: {
                 code,
@@ -60,7 +65,7 @@ const swaggerUi = require('swagger-ui-express');
                 data: err.data
             }
         }
-        res.json(body)
+        res.status(code).json(body)
       })
     }
 
