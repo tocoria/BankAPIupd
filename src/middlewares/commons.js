@@ -1,4 +1,5 @@
 const {validationResult} = require("express-validator");
+const {apiError} = require('../handlers/apiError');
 
 const validResult = (req, res, next) => {
     const errors = validationResult(req)

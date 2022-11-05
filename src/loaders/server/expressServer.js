@@ -13,6 +13,7 @@ const swaggerUi = require('swagger-ui-express');
         this.port = config.port;
         this.authBasePath = `${config.api.prefix}/auth`
         this.userBasePath = `${config.api.prefix}/users`
+        this.accountBasePath = `${config.api.prefix}/accounts`
 
         this._middlewares();
         this._swaggerConfig();
@@ -40,6 +41,7 @@ const swaggerUi = require('swagger-ui-express');
 
         this.app.use(this.userBasePath, require('../../routes/users.routes'));
         this.app.use(this.authBasePath, require('../../routes/auth.routes'));
+        this.app.use(this.accountBasePath, require('../../routes/account.routes'))
     }
 
     _notFound() {

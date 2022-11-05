@@ -16,7 +16,7 @@ module.exports = {
         level: process.env.LOG_LEVEL
     },
     swagger: {
-        path: "/documentation"
+        path: "/api/v1/documentation"
     },
     databaseURL: process.env.DATABASE_URL,
     auth: {
