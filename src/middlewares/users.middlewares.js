@@ -1,9 +1,8 @@
 const { check, body} = require('express-validator');
-const validator = require('validator');
-const {apiError} = require('../../handlers/apiError.js');
-const userService = require('../../services/userServices');
-const { USER_ROLE, ADMIN_ROLE, ROLES, MEMBERSHIPS } = require('../../constants/index');
-const {validationResult} = require("../commons.js");
+const {apiError} = require('../handlers/apiError');
+const userService = require('../services/userServices');
+const { USER_ROLE, ADMIN_ROLE, ROLES, MEMBERSHIPS } = require('../constants/index');
+const {validationResult} = require("./commons.js");
 const { _validJWT, hasRole } = require("./auth.middlewares");
 
 
@@ -197,12 +196,6 @@ const _userNameUnique = check('userName').custom(
 
 
 
-
-// ---------------------------------------------------------------------------------------------- //
-// -------------------------------------- VALIDATION RESULT ------------------------------------- //
-// ---------------------------------------------------------------------------------------------- //
-
-
 const postRequestValidations = [
     _validJWT,
     hasRole(ADMIN_ROLE),
@@ -239,6 +232,7 @@ const putRequestValidations = [
 
 const getRequestValidations = [
     _validJWT,
+    hasRole(ADMIN_ROLE),
     validationResult
 ]
 

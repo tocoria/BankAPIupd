@@ -32,11 +32,6 @@ const userSchema = new Schema({
 
     },
     birthDate: Date,
-    accountNumber: {
-        type: Number,
-        required: [true, 'Account number required'],
-        unique: true
-    },
     role: {
         type: String,
         required: [true, 'Role has not been selected'],

@@ -30,6 +30,8 @@ const createAccount = async (req, res, next) => {
 
    try {
 
+    req.body.aliasOwner = req.user.userName
+    
     let accountData = req.body;
 
 

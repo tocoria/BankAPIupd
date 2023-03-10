@@ -23,6 +23,11 @@ class AccountRepository {
         return await Account.findOne({aliasOwner: aliasOwner})
     }
 
+    async getByUserAndCurrency (aliasOwner, currency) {
+        return await Account.findOne({aliasOwner: aliasOwner, currency: currency})
+
+    }
+
     async save(account) {
         return await Account.create(account);
     }

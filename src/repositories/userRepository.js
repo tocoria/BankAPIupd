@@ -24,7 +24,6 @@ class UserRepository {
     }
 
     async save(user) {
-        user.accountNumber = Math.floor(1000000000 + Math.random() * 8999999999)
         user.password = await encrypter.hashPassword(user.password);
         return await User.create(user);
     }

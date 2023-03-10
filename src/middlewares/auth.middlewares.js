@@ -1,7 +1,7 @@
 const { check } = require('express-validator');
-const {validationResult} = require("../commons.js")
-const { validateToken, validRole } = require("../../services/authServices.js");
-const logger = require("../../loaders/logger/index")
+const {validationResult} = require("./commons.js")
+const { validateToken, validRole } = require("../services/authServices.js");
+const logger = require("../loaders/logger/index")
 
 
 

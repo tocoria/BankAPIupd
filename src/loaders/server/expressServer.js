@@ -14,6 +14,7 @@ const swaggerUi = require('swagger-ui-express');
         this.authBasePath = `${config.api.prefix}/auth`
         this.userBasePath = `${config.api.prefix}/users`
         this.accountBasePath = `${config.api.prefix}/accounts`
+        this.operationBasePath = `${config.api.prefix}/operations`
 
         this._middlewares();
         this._swaggerConfig();
@@ -42,6 +43,7 @@ const swaggerUi = require('swagger-ui-express');
         this.app.use(this.userBasePath, require('../../routes/users.routes'));
         this.app.use(this.authBasePath, require('../../routes/auth.routes'));
         this.app.use(this.accountBasePath, require('../../routes/account.routes'))
+        this.app.use(this.operationBasePath, require('../../routes/operations.routes'))
     }
 
     _notFound() {
@@ -58,7 +60,7 @@ const swaggerUi = require('swagger-ui-express');
         const code = err.code || 500;
 
         logger.error(`${code} - ${err.message} - ${req.originalURL} - ${req.method} / ${req.ip}`)
-        logger.error(err.stack)
+        //logger.error(err.stack)
 
         const body = {
             error: {
